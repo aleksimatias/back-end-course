@@ -13,15 +13,16 @@ const courseSchema = mongoose.Schema({
     items: [],
     zipCode: {
         type: Number,
-        min: [10, 'ZIP Code is too short'],
+        min: [10000, 'ZIP Code is too short'],
         max: 99999
-    },
+    }
+    /* ,
     courses: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Course"
         }
-    ]
+    ] */
 });
 
 module.exports = mongoose.model('Course', courseSchema);
