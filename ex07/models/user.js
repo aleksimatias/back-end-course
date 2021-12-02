@@ -38,4 +38,9 @@ userSchema.virtual("fullName")
         return `${this.name.first} ${this.name.last}`;
     });
 
+userSchema.virtual("username")
+    .get(function() {
+        return `${this.name.first.substring(0, 1)}${this.name.last.substring(0, 6)}`;
+    })
+
 module.exports = mongoose.model("User", userSchema);
