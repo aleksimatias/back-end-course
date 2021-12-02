@@ -7,6 +7,7 @@ mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
 const subscribersController = require("./controllers/subscribersController");
+const usersController = require("./controllers/usersController");
 const Subscriber = require("./models/subscriber");
 const express = require('express');
 const app = express();
@@ -30,6 +31,8 @@ app.get("/", (req, res, next) => {
 
 app.get("/subscribers", subscribersController.index,
     subscribersController.indexView);
+
+app.get("users", usersController.index);
 
 app.listen(app.get('port'), 
 () => { 
