@@ -1,38 +1,31 @@
-const mongoose = require("mongoose"),
-    subscriberSchema = mongoose.Schema({
-        name: {
-            type: String,       // Must be string  
-            required: true      // Must be entered
-        },
-        email: {
-            type: String,       // Must be string
-            required: true,     // Must be entered
-            unique: true,       // Must not exist
-            lowercase: true     // Must be lowercase
-        },
-        zipCode: {
-            type: Number,       // Must be a number
-            // If under 10, Error is presented:
-            min: [10, 'ZIP Code is too short'],
-            max: 99999  // Maximum value. No error presented
-        },
-        vip: {
-            type: Boolean   // True or false
-        },
-        courses: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Course"
-        }]
-    });
+"use strict";
 
-// .this refers to the object it belongs to
-// in a method .this refers to the owner (subscriber)
+const mongoose = require("mongoose");
+const subscriberSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    lowercase: true,
+    unique: true
+  },
+  zipCode: {
+    type: Number,
+    min: [10000, "Zip code too short"],
+    max: 99999
+  },
+  courses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }]
+});
+
 subscriberSchema.methods.getInfo = function() {
-    return `Name: ${this.name} Email: ${this.email} Zip Code: ${this.zipCode}`;
+  return `Name: ${this.name} Email: ${this.email} Zip Code: ${this.zipCode}`;
 };
 
 subscriberSchema.methods.findLocalSubscribers = function() {
-    return this.model("Subscriber")
+  return this.model("Subscriber")
     .find({ zipCode: this.zipCode })
     .exec();
 };
